@@ -12,8 +12,6 @@ bat = pygame.image.load('bat.png')
 playerY = 540
 batRect = bat.get_rect()
 mousex, mousey = (0, playerY)
-mousex = 0
-mousey = playerY
 
 # ball init
 ball = pygame.image.load('ball.png')
@@ -26,22 +24,22 @@ sx, sy = (ballSpeed, ballSpeed)
 ballReact.topleft = (bx, by)
 
 # brick init
-def creteBricks(pathToImg, rows, cols):
-  global brick
-brick = pygame.image.load(pathToImg)
+# def creteBricks(pathToImg, rows, cols):
+#   global brick
+brick = pygame.image.load('brick.png')
 #brick = None
 bricks =[]
 
-for y in range(rows):
+for y in range(5):
   brickY =( y*24) + 100
-  for x in range(cols):
+  for x in range(10):
     brickX =(x * 31) + 245
     width = brick.get_width()
     height = brick.get_height()
     rect =  Rect(brickX, brickY, width, height)
     bricks.append(rect)
-return bricks
-bricks = creteBricks('brick.png', 5, 10)
+
+
 #background =pygame.Color(100, 149, 237)
 
 while True:
@@ -51,10 +49,10 @@ while True:
     mainSurface.blit(brick,b)
   #bat and ball draw
   mainSurface.blit(bat, batRect)
-  batRect = bat.get_rect()
+  mainSurface.blit(ball, batRect)
+  #batRect = bat.get_rect()
+
   #event
-
-
   for event in pygame.event.get():
     if event.type == QUIT:
       pygame.quit()
@@ -65,49 +63,41 @@ while True:
         batRect.topleft = (mousex, playerY)
       else:
          batRect.topleft = (800-55, playerY)
-
+    elif event.type == MOUSEBUTTONUP and not ballServed:
+      ballServed = True
   # main game logic
  
   if ballServed:
     bx += sx
     by += sy
     ballReact.topleft = (bx, by)
-  elif event.type == MOUSEBUTTONUP and not ballServed:
-    ballServed= True
-
+  
   if (by <= 0):
     by = 0
     sy *= -1
 
   if (by >=600 - 8):
-    ballServed = False
-    bx, by = (24, ballStartY)
-    ballSpeed = 3
-    sx, sy = (ballSpeed, ballSpeed)
-    ballReact.topleft = (bx, by)
-    
-  
-  if (bx <= 0):
+    by = 600 - 8
+    sy *= -1
+
+if (bx <= 0):
     bx = 0
     sx *= -1
 
-  if (bx >= 800 - 8):
-    bx = 800 - 8
-    sx *= -1
+if (by >=600 -8):
+  ballServed = False
+  bx, by = (24, ballStartY)
+  ballSpeed = 3
+  sx, sy = (ballSpeed, ballSpeed)
+  ballReact.topleft = (bx, by)
+    
+ 
   # collision detection
-
-  if ballReact.colliderect(batRect):
-    by = playerY - 8
-    sx *= -1
-
-    by = playerY - 8
-
-  brickHitIndex = ballReact.collidelist(bricks)
-  if brickHitIndex >= 0:
+brickHitIndex = ballReact.collidelist(bricks)
+if brickHitIndex >= 0:
     hb = bricks[brickHitIndex]
-
-    mx = bx + 4
-    my = by + 4
+    mx =bx +4
+    my = by +4
     if mx > hb.x +hb.width or mx < hb.x:
       sx *= -1
     else:
@@ -115,5 +105,6 @@ while True:
 
     del (bricks[brickHitIndex])
 
-  pygame.display.update()
-  fpsClock.tick(30)
+    
+pygame.display.update()
+fpsClock.tick(30)

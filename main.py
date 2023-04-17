@@ -70,7 +70,7 @@ while True:
   if ballServed:
     bx += sx
     by += sy
-    ballReact.topleft = (bx, by)
+    ballRect.topleft = (bx, by)
   
   if (by <= 0):
     by = 0
@@ -89,11 +89,11 @@ if (by >=600 -8):
   bx, by = (24, ballStartY)
   ballSpeed = 3
   sx, sy = (ballSpeed, ballSpeed)
-  ballReact.topleft = (bx, by)
+  ballRect.topleft = (bx, by)
     
  
   # collision detection
-brickHitIndex = ballReact.collidelist(bricks)
+brickHitIndex = ballRect.collidelist(bricks)
 if brickHitIndex >= 0:
     hb = bricks[brickHitIndex]
     mx =bx +4

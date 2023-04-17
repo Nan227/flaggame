@@ -15,13 +15,13 @@ mousex, mousey = (0, playerY)
 
 # ball init
 ball = pygame.image.load('ball.png')
-ballReact = ball.get_rect()
+ballRect = ball.get_rect()
 ballStartY =200
 ballSpeed = 3
 ballServed = False
 bx, by = (24, ballStartY)
 sx, sy = (ballSpeed, ballSpeed)
-ballReact.topleft = (bx, by)
+ballRect.topleft = (bx, by)
 
 # brick init
 # def creteBricks(pathToImg, rows, cols):

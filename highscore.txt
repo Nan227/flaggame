@@ -1,0 +1,1 @@
+players =['anna, 100','Nan, 200','Larry,600']

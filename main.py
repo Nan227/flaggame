@@ -17,7 +17,7 @@ mousey = playerY
 
 # ball init
 ball = pygame.image.load('ball.png')
-ballReact = ball.get_react()
+ballReact = ball.get_rect()
 ballStartY =200
 ballSpeed = 3
 ballServed = False
@@ -26,19 +26,22 @@ sx, sy = (ballSpeed, ballSpeed)
 ballReact.topleft = (bx, by)
 
 # brick init
-
-brick = pygame.image.load('brick.png')
+def creteBricks(pathToImg, rows, cols):
+  global brick
+brick = pygame.image.load(pathToImg)
+#brick = None
 bricks =[]
 
-for y in range(5):
+for y in range(rows):
   brickY =( y*24) + 100
-  for x in range(10):
+  for x in range(cols):
     brickX =(x * 31) + 245
     width = brick.get_width()
     height = brick.get_height()
-    react =  React(brickX, brickY, width, height)
-    bricks.append(react)
-
+    rect =  Rect(brickX, brickY, width, height)
+    bricks.append(rect)
+return bricks
+bricks = creteBricks('brick.png', 5, 10)
 #background =pygame.Color(100, 149, 237)
 
 while True:
@@ -47,7 +50,7 @@ while True:
   for b in bricks:
     mainSurface.blit(brick,b)
   #bat and ball draw
-  mainSurface.fill(bbat, batRect)
+  mainSurface.blit(bat, batRect)
   batRect = bat.get_rect()
   #event
 
@@ -111,6 +114,6 @@ while True:
       sy *= -1
 
     del (bricks[brickHitIndex])
-      
+
   pygame.display.update()
   fpsClock.tick(30)
